@@ -16,6 +16,12 @@ public class Template {
     private String title;
     private String subject;
 
+    public Template(String content, String title, String subject) {
+        this.content = content;
+        this.title = title;
+        this.subject = subject;
+    }
+
     public String getContent() {
         return content;
     }
