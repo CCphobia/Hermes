@@ -1,9 +1,6 @@
 package pwr.asi.java.hermes.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -12,6 +9,7 @@ public class Template {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Lob
     private String content;
     private String title;
     private String subject;
@@ -32,6 +30,18 @@ public class Template {
 
     public String getSubject() {
         return subject;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     @Override
