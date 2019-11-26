@@ -9,12 +9,12 @@ public class Template {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Lob
-    private String content;
     private String title;
     private String subject;
+    @Lob
+    private String content;
 
-    public Template(String content, String title, String subject) {
+    public Template(String title, String subject, String content) {
         this.content = content;
         this.title = title;
         this.subject = subject;

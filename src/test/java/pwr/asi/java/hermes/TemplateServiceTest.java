@@ -37,19 +37,19 @@ public class TemplateServiceTest {
 
         templateService.modifyTemplate(template, "X");
 
-        assertEquals(new Template("X", "B", "C"), template);
+        assertEquals(new Template("A", "B", "X"), template);
     }
 
     @Test
     public void testGetTemplate() {
         Template template = new Template("A", "B", "C");
 
-        when(templateService.getTemplate("B")).thenReturn(template);
+        when(templateService.getTemplate("A")).thenReturn(template);
 
-        Template template1 = templateService.getTemplate("B");
+        Template template1 = templateService.getTemplate("A");
 
         assertNotNull(template1);
-        assertEquals("B", template1.getTitle());
-        verify(templateRepository, times(1)).getByTitle("B");
+        assertEquals("A", template1.getTitle());
+        verify(templateRepository, times(1)).getByTitle("A");
     }
 }
