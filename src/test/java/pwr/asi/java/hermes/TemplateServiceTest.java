@@ -6,6 +6,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import pwr.asi.java.hermes.entities.Template;
+import pwr.asi.java.hermes.exceptions.EntityAlreadyInDBException;
+import pwr.asi.java.hermes.exceptions.NoSuchEntityInDBException;
 import pwr.asi.java.hermes.repositories.TemplateRepository;
 import pwr.asi.java.hermes.services.TemplateService;
 
@@ -22,22 +24,23 @@ public class TemplateServiceTest {
     @Mock
     TemplateRepository templateRepository;
 
-    @Test
-    public void testAddTemplate() {
+    @Test(expected = EntityAlreadyInDBException.class)
+    public void testAddTemplate() throws EntityAlreadyInDBException {
         Template template = new Template("A", "B", "C");
-
         templateService.addTemplate(template);
 
         verify(templateRepository, times(1)).save(template);
+        verify(templateRepository, times(1)).existsById(anyLong());
     }
 
-    @Test
-    public void testModifyTemplate() {
+    @Test(expected = NoSuchEntityInDBException.class)
+    public void testModifyTemplate() throws NoSuchEntityInDBException {
         Template template = new Template("A", "B", "C");
-
         templateService.modifyTemplate(template, "X");
 
         assertEquals(new Template("A", "B", "X"), template);
+        verify(templateRepository, times(1)).existsById(anyLong());
+        verify(templateRepository, times(1)).getByTitle(anyString());
     }
 
     @Test
