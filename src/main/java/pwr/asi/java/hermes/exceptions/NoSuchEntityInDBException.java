@@ -1,6 +1,6 @@
 package pwr.asi.java.hermes.exceptions;
 
-public class NoSuchEntityInDBException extends Exception {
+public class NoSuchEntityInDBException extends RuntimeException {
     public NoSuchEntityInDBException() {
     }
 

@@ -1,6 +1,6 @@
 package pwr.asi.java.hermes.exceptions;
 
-public class EntityAlreadyInDBException extends Exception {
+public class EntityAlreadyInDBException extends RuntimeException {
     public EntityAlreadyInDBException() {
     }
 
