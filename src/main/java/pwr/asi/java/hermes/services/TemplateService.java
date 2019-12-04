@@ -16,7 +16,7 @@ public class TemplateService {
     TemplateRepository templateRepository;
 
     public void addTemplate(Template newTemplate) throws EntityAlreadyInDBException {
-        if (templateRepository.existsById(newTemplate.getId())) {
+        if (!templateRepository.existsById(newTemplate.getId())) {
             templateRepository.save(newTemplate);
         } else throw new EntityAlreadyInDBException("Entity already in database");
     }
@@ -28,7 +28,11 @@ public class TemplateService {
         } else throw new NoSuchEntityInDBException("No such entity in database");
     }
 
-    public Template getTemplate(String title) {
-        return templateRepository.getByTitle(title);
+    public Template getTemplate(String title) throws NoSuchEntityInDBException {
+        Template returnedTemplate = templateRepository.getByTitle(title);
+
+        if (returnedTemplate == null) {
+            throw new NoSuchEntityInDBException("No such entity in database");
+        } else return returnedTemplate;
     }
 }
