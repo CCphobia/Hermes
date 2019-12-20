@@ -10,10 +10,16 @@ public class Template {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(unique = true)
     private String title;
     private String subject;
+
     @Lob
     private String content;
+
+    public Template() {
+    }
 
     public Template(String title, String subject, String content) {
         this.content = content;
@@ -54,22 +60,24 @@ public class Template {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Template template = (Template) o;
-        return Objects.equals(content, template.content) &&
+        return Objects.equals(id, template.id) &&
                 Objects.equals(title, template.title) &&
-                Objects.equals(subject, template.subject);
+                Objects.equals(subject, template.subject) &&
+                Objects.equals(content, template.content);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(content, title, subject);
+        return Objects.hash(id, title, subject, content);
     }
 
     @Override
     public String toString() {
         return "Template{" +
-                "content='" + content + '\'' +
+                "id=" + id +
                 ", title='" + title + '\'' +
                 ", subject='" + subject + '\'' +
+                ", content='" + content + '\'' +
                 '}';
     }
 }
