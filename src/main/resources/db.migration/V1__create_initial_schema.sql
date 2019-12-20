@@ -1,0 +1,1 @@
+create table templates (id bigint primary key, title varchar(500), subject varchar(500), content text)
