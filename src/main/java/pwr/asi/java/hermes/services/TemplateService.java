@@ -18,10 +18,12 @@ public class TemplateService {
     }
 
     @Transactional
-    public void addTemplate(Template newTemplate) throws EntityAlreadyInDBException {
-        if (!templateRepository.existsById(newTemplate.getId())) {
-            templateRepository.save(newTemplate);
-        } else throw new EntityAlreadyInDBException("Entity already in database");
+    public void addTemplate(Template newTemplate) {
+        templateRepository.getByTitle(newTemplate.getTitle())
+                .ifPresent(template -> {
+                    throw new EntityAlreadyInDBException("Template with title [" + template.getTitle() + "] already exists!");
+                });
+        templateRepository.save(newTemplate);
     }
 
     @Transactional
@@ -35,6 +37,6 @@ public class TemplateService {
     @Transactional(readOnly = true)
     public Template getTemplate(String title) throws NoSuchEntityInDBException {
         return templateRepository.getByTitle(title)
-                .orElseThrow(() ->  new NoSuchEntityInDBException("No such entity in database"));
+                .orElseThrow(() -> new NoSuchEntityInDBException("No such entity in database"));
     }
 }
