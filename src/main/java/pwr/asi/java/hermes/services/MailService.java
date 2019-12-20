@@ -26,4 +26,10 @@ public class MailService {
         }
         return mailRepository.findAllByCreationTimeBetween(fromDate, toDate);
     }
+
+    public int getNumberOfProposals() {
+        return mailRepository.getNumberOfProposals();
+    }
+
+
 }

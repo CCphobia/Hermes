@@ -17,9 +17,9 @@ public class Mail {
     private int number;
     private Date creationTime;
 
-    public Mail(Template formattedTemplate, Date creationTime) {
+    public Mail(Template formattedTemplate) {
         this.formattedTemplate = formattedTemplate;
-        this.creationTime = creationTime;
+        this.creationTime = new Date();
     }
 
     public Long getId() {
@@ -30,24 +30,12 @@ public class Mail {
         return formattedTemplate;
     }
 
-    public void setFormattedTemplate(Template formattedTemplate) {
-        this.formattedTemplate = formattedTemplate;
-    }
-
     public int getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
     public Date getCreationTime() {
         return creationTime;
-    }
-
-    public void setCreationTime(Date creationTime) {
-        this.creationTime = creationTime;
     }
 
     @Override
