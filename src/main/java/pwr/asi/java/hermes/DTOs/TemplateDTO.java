@@ -55,7 +55,7 @@ public class TemplateDTO {
         return Objects.hash(title, subject, content);
     }
 
-    TemplateDTO build(Template templateToBuild) {
+    public static TemplateDTO build(Template templateToBuild) {
         String titleToBuild = templateToBuild.getTitle();
         String subjectToBuild = templateToBuild.getSubject();
         String contentToBuild = templateToBuild.getContent();
@@ -63,7 +63,7 @@ public class TemplateDTO {
         return new TemplateDTO(titleToBuild, subjectToBuild, contentToBuild);
     }
 
-    Template getTemplate() {
+    public Template getTemplate() {
         return new Template(title, subject, content);
     }
 }
