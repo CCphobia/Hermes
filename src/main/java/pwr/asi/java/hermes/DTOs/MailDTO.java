@@ -12,9 +12,8 @@ public class MailDTO {
     private int number;
     private Date creationTime;
 
-    public MailDTO(Template formattedTemplate, int number) {
+    public MailDTO(Template formattedTemplate) {
         this.formattedTemplate = formattedTemplate;
-        this.number = number;
         this.creationTime = new Date();
     }
 

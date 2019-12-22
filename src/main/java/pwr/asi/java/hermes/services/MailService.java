@@ -1,6 +1,5 @@
 package pwr.asi.java.hermes.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pwr.asi.java.hermes.entities.Mail;
@@ -16,7 +15,6 @@ public class MailService {
     private MailRepository mailRepository;
     private int currentYear;
 
-    @Autowired
     public MailService(MailRepository mailRepository) {
         this.mailRepository = mailRepository;
         currentYear = Calendar.getInstance().get(Calendar.YEAR);
