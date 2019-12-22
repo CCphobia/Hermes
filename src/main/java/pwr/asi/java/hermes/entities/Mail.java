@@ -26,9 +26,9 @@ public class Mail {
     @Column(table = "mail_counter")
     private int number;
 
-    public Mail(Template formattedTemplate) {
+    public Mail(Template formattedTemplate, Date creationTime) {
         this.formattedTemplate = formattedTemplate;
-        this.creationTime = new Date();
+        this.creationTime = creationTime;
     }
 
     public Long getId() {
