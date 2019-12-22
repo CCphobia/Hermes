@@ -8,8 +8,12 @@ import java.util.Date;
 import java.util.List;
 
 public interface MailRepository extends JpaRepository<Mail, Long> {
+
     List<Mail> findAllByCreationTimeBetween(Date earliestDate, Date latestDate);
 
-    @Query(value = "select number from mails order by creationTime limit 1", nativeQuery = true)
+    @Query(value = "select number from mail_counter", nativeQuery = true)
     int getNumberOfProposals();
+
+    @Query(value = "update mail_counter set number = ?1", nativeQuery = true)
+    void updateNumberOfProposals(int newNumber);
 }

@@ -6,16 +6,25 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "mails")
+@SecondaryTable(name = "mail_counter")
 public class Mail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(table = "mails")
     private Long id;
-    @OneToOne
+
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "template_id")
-    private Template formattedTemplate;
+    @Column(table = "mails")
+    private final Template formattedTemplate;
+
+    @Temporal(TemporalType.DATE)
+    @Column(table = "mails")
+    private final Date creationTime;
+
+    @Column(table = "mail_counter")
     private int number;
-    private Date creationTime;
 
     public Mail(Template formattedTemplate) {
         this.formattedTemplate = formattedTemplate;
@@ -32,6 +41,10 @@ public class Mail {
 
     public int getNumber() {
         return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public Date getCreationTime() {
