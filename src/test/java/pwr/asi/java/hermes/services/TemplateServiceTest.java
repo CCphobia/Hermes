@@ -98,6 +98,8 @@ class TemplateServiceTest {
 
         assertThat(templateRepository.count()).isEqualTo(1);
         assertThat(templateService.getTemplate("1").equals(template2));
+        assertThatThrownBy(() -> templateService.getTemplate("A"))
+                .isExactlyInstanceOf(NoSuchEntityInDBException.class);
     }
 
     @Test
