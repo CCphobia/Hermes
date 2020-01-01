@@ -1,8 +1,8 @@
 package pwr.asi.java.hermes.services;
 
-import com.sun.istack.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pwr.asi.java.hermes.DTOs.TemplateDTO;
 import pwr.asi.java.hermes.entities.Template;
 import pwr.asi.java.hermes.exceptions.EntityAlreadyInDBException;
 import pwr.asi.java.hermes.exceptions.NoSuchEntityInDBException;
@@ -18,16 +18,17 @@ public class TemplateService {
     }
 
     @Transactional
-    public void addTemplate(Template newTemplate) {
-        templateRepository.getByTitle(newTemplate.getTitle())
+    public void addTemplate(TemplateDTO newTemplate) {
+        Template newEntity = newTemplate.getTemplate();
+        templateRepository.getByTitle(newEntity.getTitle())
                 .ifPresent(template -> {
                     throw new EntityAlreadyInDBException("Template with title [" + template.getTitle() + "] already exists!");
                 });
-        templateRepository.save(newTemplate);
+        templateRepository.save(newEntity);
     }
 
     @Transactional
-    public void modifyTemplate(@NotNull Template toModify, String newContent) throws NoSuchEntityInDBException {
+    public void modifyTemplate(TemplateDTO toModify, String newContent) throws NoSuchEntityInDBException {
         final var template = templateRepository.getByTitle(toModify.getTitle())
                 .orElseThrow(() -> new NoSuchEntityInDBException("No such entity in database"));
         template.setContent(newContent);
@@ -35,9 +36,9 @@ public class TemplateService {
     }
 
     @Transactional(readOnly = true)
-    public Template getTemplate(String title) throws NoSuchEntityInDBException {
-        return templateRepository.getByTitle(title)
-                .orElseThrow(() -> new NoSuchEntityInDBException("No such entity in database"));
+    public TemplateDTO getTemplate(String title) throws NoSuchEntityInDBException {
+        return TemplateDTO.build(templateRepository.getByTitle(title)
+                .orElseThrow(() -> new NoSuchEntityInDBException("No such entity in database")));
     }
 
     @Transactional

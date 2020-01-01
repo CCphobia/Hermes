@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import pwr.asi.java.hermes.DTOs.TemplateDTO;
 import pwr.asi.java.hermes.entities.Template;
 import pwr.asi.java.hermes.exceptions.EntityAlreadyInDBException;
 import pwr.asi.java.hermes.exceptions.NoSuchEntityInDBException;
@@ -31,7 +32,7 @@ class TemplateServiceTest {
 
     @Test
     void testAddTemplate() {
-        final Template template = new Template("A", "B", "C");
+        final TemplateDTO template = new TemplateDTO("A", "B", "C");
         templateService.addTemplate(template);
 
         assertThat(templateRepository.count()).isEqualTo(1);
@@ -40,23 +41,23 @@ class TemplateServiceTest {
 
     @Test
     void testAddTemplatesWithTheSameTitle() {
-        final Template template = new Template("A", "Subject", "Content");
+        final TemplateDTO template = new TemplateDTO("A", "Subject", "Content");
         templateService.addTemplate(template);
 
-        final Template duplicate = new Template("A", "DifferentSubject", "DifferentContent");
+        final TemplateDTO duplicate = new TemplateDTO("A", "DifferentSubject", "DifferentContent");
         assertThatThrownBy(() -> templateService.addTemplate(duplicate))
                 .isExactlyInstanceOf(EntityAlreadyInDBException.class);
     }
 
     @Test
     void testModifyTemplate() {
-        final Template template = new Template("A", "B", "C");
-        templateRepository.save(template);
+        final TemplateDTO template = new TemplateDTO("A", "B", "C");
+        templateRepository.save(template.getTemplate());
 
         final String newContent = "X";
         templateService.modifyTemplate(template, newContent);
 
-        final Template changedTemplate = templateService.getTemplate("A");
+        final TemplateDTO changedTemplate = templateService.getTemplate("A");
         assertThat(changedTemplate.getContent()).isEqualTo(newContent);
     }
 
@@ -66,7 +67,7 @@ class TemplateServiceTest {
         final Template template = new Template(title, "B", "C");
         templateRepository.save(template);
 
-        final Template saved = templateService.getTemplate(title);
+        final TemplateDTO saved = templateService.getTemplate(title);
 
         assertThat(saved).isNotNull();
         assertThat(saved.getTitle()).isEqualTo(title);
