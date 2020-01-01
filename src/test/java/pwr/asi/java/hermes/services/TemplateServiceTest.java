@@ -81,18 +81,18 @@ class TemplateServiceTest {
 
     @Test
     void testModifyTemplateShouldThrowNoSuchEntityException() {
-        final Template template = new Template("A", "B", "C");
+        final TemplateDTO template = new TemplateDTO("A", "B", "C");
         assertThatThrownBy(() -> templateService.modifyTemplate(template, "A"))
                 .isExactlyInstanceOf(NoSuchEntityInDBException.class);
     }
 
     @Test
     void testDeleteTemplateByTitle() {
-        final Template template1 = new Template("A", "B", "C");
-        final Template template2 = new Template("1", "2", "3");
+        final TemplateDTO template1 = new TemplateDTO("A", "B", "C");
+        final TemplateDTO template2 = new TemplateDTO("1", "2", "3");
         String title = "A";
-        templateRepository.save(template1);
-        templateRepository.save(template2);
+        templateService.addTemplate(template1);
+        templateService.addTemplate(template2);
 
         assertThat(templateRepository.count()).isEqualTo(2);
         templateService.deleteTemplateByTitle(title);
