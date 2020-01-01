@@ -40,4 +40,11 @@ public class TemplateService {
         return TemplateDTO.build(templateRepository.getByTitle(title)
                 .orElseThrow(() -> new NoSuchEntityInDBException("No such entity in database")));
     }
+
+    @Transactional
+    public void deleteTemplateByTitle(String title) throws NoSuchEntityInDBException {
+        final var template = templateRepository.getByTitle(title)
+                .orElseThrow(() -> new NoSuchEntityInDBException("No such entity in database"));
+        templateRepository.deleteByTitle(title);
+    }
 }

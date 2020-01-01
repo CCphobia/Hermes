@@ -36,7 +36,7 @@ class TemplateServiceTest {
         templateService.addTemplate(template);
 
         assertThat(templateRepository.count()).isEqualTo(1);
-        assertThat(templateService.getTemplate("A")).isNotNull();
+        assertThat(templateService.getTemplate(template.getTitle()).equals(template));
     }
 
     @Test
@@ -80,9 +80,32 @@ class TemplateServiceTest {
     }
 
     @Test
-    void testGetTemplateShouldThrowNoSuchEntityExceptioan() {
-        final TemplateDTO template = new TemplateDTO("A", "B", "C");
+    void testModifyTemplateShouldThrowNoSuchEntityException() {
+        final Template template = new Template("A", "B", "C");
         assertThatThrownBy(() -> templateService.modifyTemplate(template, "A"))
+                .isExactlyInstanceOf(NoSuchEntityInDBException.class);
+    }
+
+    @Test
+    void testDeleteTemplateByTitle() {
+        final Template template1 = new Template("A", "B", "C");
+        final Template template2 = new Template("1", "2", "3");
+        String title = "A";
+        templateRepository.save(template1);
+        templateRepository.save(template2);
+
+        assertThat(templateRepository.count()).isEqualTo(2);
+        templateService.deleteTemplateByTitle(title);
+
+        assertThat(templateRepository.count()).isEqualTo(1);
+        assertThat(templateService.getTemplate("1").equals(template2));
+        assertThatThrownBy(() -> templateService.getTemplate("A"))
+                .isExactlyInstanceOf(NoSuchEntityInDBException.class);
+    }
+
+    @Test
+    void testDeleteTemplateByTitleShouldThrowNoSuchEntityException() {
+        assertThatThrownBy(() -> templateService.deleteTemplateByTitle("A"))
                 .isExactlyInstanceOf(NoSuchEntityInDBException.class);
     }
 }
