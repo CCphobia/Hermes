@@ -16,7 +16,7 @@ public class Mail {
     @Column(table = "mails")
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "template_id", table = "mails")
     private Template formattedTemplate;
 

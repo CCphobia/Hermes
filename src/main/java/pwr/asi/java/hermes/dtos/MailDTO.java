@@ -9,12 +9,14 @@ import java.util.Objects;
 public class MailDTO {
 
     private Template formattedTemplate;
-    public static int counter = 0;
+    public static int globalCounter = 0;
+    private int individualCounter;
     private LocalDateTime creationTime;
 
     public MailDTO(Template formattedTemplate) {
         this.formattedTemplate = formattedTemplate;
         creationTime = LocalDateTime.now();
+        individualCounter = -1;
     }
 
     public Template getFormattedTemplate() {
@@ -25,14 +27,23 @@ public class MailDTO {
         this.formattedTemplate = formattedTemplate;
     }
 
+    public int getIndividualCounter() {
+        return individualCounter;
+    }
+
+    private void setIndividualCounter(int individualCounter) {
+        this.individualCounter = individualCounter;
+    }
+
     public static MailDTO build(Mail mail) {
         var mailDto = new MailDTO(mail.getFormattedTemplate());
         mailDto.setCreationTime(mail.getCreationTime());
+        mailDto.setIndividualCounter(mail.getCounter());
         return mailDto;
     }
 
     public Mail getMail() {
-        Mail mailToGet = new Mail(formattedTemplate, ++counter);
+        Mail mailToGet = new Mail(formattedTemplate, ++globalCounter);
         mailToGet.setCreationTime(this.creationTime);
         return mailToGet;
     }
@@ -50,20 +61,20 @@ public class MailDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MailDTO mailDTO = (MailDTO) o;
-        return counter == mailDTO.counter &&
+        return globalCounter == mailDTO.globalCounter &&
                 Objects.equals(formattedTemplate, mailDTO.formattedTemplate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(formattedTemplate, counter);
+        return Objects.hash(formattedTemplate, globalCounter);
     }
 
     @Override
     public String toString() {
         return "MailDTO{" +
                 "formattedTemplate=" + formattedTemplate +
-                ", number=" + counter +
+                ", number=" + globalCounter +
                 '}';
     }
 }

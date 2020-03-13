@@ -1,6 +1,7 @@
 package pwr.asi.java.hermes.entities;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -17,6 +18,9 @@ public class Template {
 
     @Lob
     private String content;
+
+    @OneToMany(mappedBy = "formattedTemplate", orphanRemoval = true)
+    private List<Mail> mails;
 
     public Template() {
     }

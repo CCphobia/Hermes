@@ -34,9 +34,9 @@ public class MailService {
         Mail mailToSave = mailDtoToSave.getMail();
         if (resetCounter(mailToSave)) {
             mailToSave.setCounter(1);
-            MailDTO.counter = 1;
+            MailDTO.globalCounter = 1;
         }
-        mailRepository.updateNumberOfProposals(MailDTO.counter);
+        mailRepository.updateNumberOfProposals(MailDTO.globalCounter);
         mailRepository.save(mailToSave);
     }
 

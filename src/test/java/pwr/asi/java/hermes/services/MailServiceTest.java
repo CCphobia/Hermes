@@ -23,10 +23,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class MailServiceTest {
 
     @Autowired
-    MailRepository mailRepository;
+    private MailRepository mailRepository;
 
     @Autowired
-    MailService mailService;
+    private MailService mailService;
 
     private final Template sampleTemplate1 = new Template("Title1", "Subject1", "Body1");
     private final Template sampleTemplate2 = new Template("Title2", "Subject2", "Body2");
@@ -34,7 +34,7 @@ public class MailServiceTest {
 
     @BeforeEach
     void setUp() {
-        MailDTO.counter = 0;
+        MailDTO.globalCounter = 0;
         mailRepository.deleteAll();
     }
 
