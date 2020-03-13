@@ -1,7 +1,9 @@
 package pwr.asi.java.hermes.entities;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -14,21 +16,24 @@ public class Mail {
     @Column(table = "mails")
     private Long id;
 
-    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "template_id")
-    @Column(table = "mails")
-    private final Template formattedTemplate;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "template_id", table = "mails")
+    private Template formattedTemplate;
 
-    @Temporal(TemporalType.DATE)
-    @Column(table = "mails")
-    private final Date creationTime;
+    @CreationTimestamp
+    @Column(table = "mails", name = "creation_time")
+    private LocalDateTime creationTime;
 
     @Column(table = "mail_counter")
-    private int number;
+    private int counter;
 
-    public Mail(Template formattedTemplate, Date creationTime) {
+    public Mail() {
+    }
+
+    public Mail(Template formattedTemplate, int counter) {
         this.formattedTemplate = formattedTemplate;
-        this.creationTime = creationTime;
+        this.counter = counter;
+        this.creationTime = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -39,16 +44,20 @@ public class Mail {
         return formattedTemplate;
     }
 
-    public int getNumber() {
-        return number;
+    public int getCounter() {
+        return counter;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setCounter(int counter) {
+        this.counter = counter;
     }
 
-    public Date getCreationTime() {
+    public LocalDateTime getCreationTime() {
         return creationTime;
+    }
+
+    public void setCreationTime(LocalDateTime creationTime) {
+        this.creationTime = creationTime;
     }
 
     @Override
@@ -56,7 +65,7 @@ public class Mail {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Mail mail = (Mail) o;
-        return number == mail.number &&
+        return counter == mail.counter &&
                 id.equals(mail.id) &&
                 formattedTemplate.equals(mail.formattedTemplate) &&
                 creationTime.equals(mail.creationTime);
@@ -64,7 +73,7 @@ public class Mail {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, formattedTemplate, number, creationTime);
+        return Objects.hash(id, formattedTemplate, counter, creationTime);
     }
 
     @Override
@@ -72,7 +81,7 @@ public class Mail {
         return "Mail{" +
                 "id=" + id +
                 ", formattedTemplate=" + formattedTemplate +
-                ", number=" + number +
+                ", number=" + counter +
                 ", creationTime=" + creationTime +
                 '}';
     }
