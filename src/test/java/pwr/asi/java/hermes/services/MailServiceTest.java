@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class MailServiceTest {
+class MailServiceTest {
 
     @Autowired
     private MailRepository mailRepository;
@@ -40,13 +40,13 @@ public class MailServiceTest {
 
     @Test
     void testSameYearMailSave() {
-        Mail firstMail = new Mail(sampleTemplate1, 1);
-        Mail secondMail = new Mail(sampleTemplate2, 2);
+        final Mail firstMail = new Mail(sampleTemplate1, 1);
+        final Mail secondMail = new Mail(sampleTemplate2, 2);
 
         secondMail.setCreationTime(firstMail.getCreationTime());
 
-        MailDTO firstMailDto = MailDTO.build(firstMail);
-        MailDTO secondMailDto = MailDTO.build(secondMail);
+        final MailDTO firstMailDto = MailDTO.build(firstMail);
+        final MailDTO secondMailDto = MailDTO.build(secondMail);
 
         mailService.save(firstMailDto);
         assertThat(mailRepository.getNumberOfProposals()).isEqualTo(1);
@@ -56,13 +56,13 @@ public class MailServiceTest {
 
     @Test
     void testDifferentYearMailSave() {
-        Mail firstMail = new Mail(sampleTemplate1, 1);
-        Mail secondMail = new Mail(sampleTemplate2, 2);
+        final Mail firstMail = new Mail(sampleTemplate1, 1);
+        final Mail secondMail = new Mail(sampleTemplate2, 2);
 
         secondMail.setCreationTime(firstMail.getCreationTime().plusYears(100));
 
-        MailDTO firstMailDto = MailDTO.build(firstMail);
-        MailDTO secondMailDto = MailDTO.build(secondMail);
+        final MailDTO firstMailDto = MailDTO.build(firstMail);
+        final MailDTO secondMailDto = MailDTO.build(secondMail);
 
         mailService.save(firstMailDto);
         assertThat(mailRepository.getNumberOfProposals()).isEqualTo(1);
@@ -72,8 +72,8 @@ public class MailServiceTest {
 
     @Test
     void testFindAllByPeriodThrowsInvalidDateException() {
-        LocalDateTime localDateTime1 = LocalDateTime.now();
-        LocalDateTime localDateTime2 = localDateTime1.minusDays(1);
+        final LocalDateTime localDateTime1 = LocalDateTime.now();
+        final LocalDateTime localDateTime2 = localDateTime1.minusDays(1);
 
         assertThatThrownBy(
                 () -> mailService.findAllByPeriod(localDateTime1, localDateTime2)
@@ -82,19 +82,19 @@ public class MailServiceTest {
 
     @Test
     void testFindAllByPeriod() throws InvalidDateException {
-        LocalDateTime localDateTime1 = LocalDateTime.now().minusHours(1);
-        LocalDateTime localDateTime2 = LocalDateTime.now().plusHours(1);
+        final LocalDateTime localDateTime1 = LocalDateTime.now().minusHours(1);
+        final LocalDateTime localDateTime2 = LocalDateTime.now().plusHours(1);
 
-        MailDTO mail1 = new MailDTO(sampleTemplate1);
-        MailDTO mail2 = new MailDTO(sampleTemplate2);
-        MailDTO mail3 = new MailDTO(sampleTemplate3);
+        final MailDTO mail1 = new MailDTO(sampleTemplate1);
+        final MailDTO mail2 = new MailDTO(sampleTemplate2);
+        final MailDTO mail3 = new MailDTO(sampleTemplate3);
 
         mailService.save(mail1);
         mailService.save(mail2);
         mailService.save(mail3);
 
-        ArrayList<MailDTO> fetchedList = mailService.findAllByPeriod(localDateTime1, localDateTime2);
-        ArrayList<MailDTO> testList = new ArrayList<>();
+        final ArrayList<MailDTO> fetchedList = mailService.findAllByPeriod(localDateTime1, localDateTime2);
+        final ArrayList<MailDTO> testList = new ArrayList<>();
         testList.add(mail1);
         testList.add(mail2);
         testList.add(mail3);
