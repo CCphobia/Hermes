@@ -1,4 +1,4 @@
-package pwr.asi.java.hermes.DTOs;
+package pwr.asi.java.hermes.dtos;
 
 import pwr.asi.java.hermes.entities.Template;
 
